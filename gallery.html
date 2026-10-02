@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض الصور</title>
+    <style>
+        :root {
+            --primary-color:#16465c; 
+            --bg-color: #f4ece1;
+            --card-bg: #fffbf5;
+        }
+              // color was #5c2c16;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: #333;
+            margin: 0;
+            padding: 15px;
+            direction: rtl;
+        }
 
+        .header {
+            text-align: center;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .nav-btn {
+            display: inline-block;
+            background-color: #fff;
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .gallery-card:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-card .caption {
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Modal / Lightbox Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.85);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+        }
+
+        #modal-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #fff;
+            padding: 15px 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 25px;
+            color: #fff;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>معرض الصور 📸</h1>
+        <p style="margin: 5px 0 0 0; font-size: 14px;">اضغطي على أي صورة لتكبيرها</p>
+        <a href="index.html" class="nav-btn">➡️ العودة إلى قائمة البهارات</a>
+    </div>
+
+    <div class="gallery-grid" id="gallery-container"></div>
+
+    <!-- Modal Elements for Fullscreen View -->
+    <div id="image-modal" class="modal" onclick="closeModal()">
+        <span class="close-btn">&times;</span>
+        <img class="modal-content" id="large-image">
+        <div id="modal-caption"></div>
+    </div>
+
+    <script>
+        // Separate image URLs and titles
+        const galleryItems = [
+            { title: "صورة 1", image: "images/k1.jpg" },
+            { title: "صورة 2", image: "images/bread_box.jpg" },
+            { title: "صورة 3", image: "images/k2_set.jpg" },
+            { title: "صورة 4", image: "images/size_1.jpeg" },
+             { title: "صورة 5", image: "images/size_2.jpeg" }
+        ];
+
+        function renderGallery() {
+            const container = document.getElementById('gallery-container');
+            galleryItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+                card.onclick = () => openModal(item.image, item.title);
+
+                card.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="caption">${item.title}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function openModal(imageSrc, captionText) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('large-image');
+            const caption = document.getElementById('modal-caption');
+
+            modal.style.display = "block";
+            modalImg.src = imageSrc;
+            caption.innerText = captionText;
+        }
+
+        function closeModal() {
+            document.getElementById('image-modal').style.display = "none";
+        }
+
+        renderGallery();
+    </script>
+</body>
+</html>
