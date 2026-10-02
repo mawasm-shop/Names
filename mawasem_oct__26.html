@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختاري أسماء بهاراتك من مواسم شوب</title>
+    <style>
+        :root {
+            --primary-color: #5c2c16;
+            --accent-color: #2e7d32; /* اللون الأخضر عند الاختيار */
+            --bg-color: #f4ece1;
+            --card-bg: #fffbf5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: #333;
+            margin: 0;
+            padding: 15px;
+            direction: rtl;
+        }
+
+        .header {
+            text-align: center;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .category {
+            background-color: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            background-color: var(--primary-color);
+            color: #fff;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 0 auto 15px auto;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .item-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .item-card:hover {
+            border-color: var(--primary-color);
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #888;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        /* عند تحديد العنصر يتحول المربع للأخضر */
+        .item-card.selected {
+            border-color: var(--accent-color);
+            background-color: #e8f5e9;
+        }
+
+        .item-card.selected .checkbox {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .item-card.selected .checkbox::after {
+            content: '✓';
+        }
+
+        .actions-panel {
+            position: sticky;
+            bottom: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        /* حقل الاسم الجديد */
+        .name-field-container {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .name-label {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .name-input {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 8px 12px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            outline: none;
+            width: 60%;
+            max-width: 300px;
+            box-sizing: border-box;
+        }
+
+        .name-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 5px rgba(46, 125, 50, 0.4);
+        }
+
+        .species-input {
+            resize: none;
+            font-size: 16px;
+            line-height: 1.5;
+            max-height: 90px;
+            overflow-y: auto;
+            font-family: inherit;
+            background-color: #fffbf5;
+        }
+
+        .btn {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-copy { background-color: #007bff; }
+        .btn-general { background-color: #6f42c1; }
+
+        .count-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+    <h1> اختاري أسماء بهاراتك من مواسم شوب 🌶️</h1>
+    <p style="margin: 5px 0 0 0; font-size: 14px;">اضغطي على الصنف لتحديده ثم أرسلي طلبك بسهولة</p>
+    
+    <!-- Button linking to gallery page -->
+    <a href="gallery.html" style="display: inline-block; margin-top: 10px; background: #fff; color: #5c2c16; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-weight: bold;">🖼️  معرض الصور</a>
+</div>
+    <div id="menu-container"></div>
+
+    <div class="actions-panel">
+        <!-- حقل الاسم المطلوب -->
+        <div class="name-field-container">
+            <label for="customer-name" class="name-label">الاسم:</label>
+            <input type="text" id="customer-name" class="name-input" placeholder="ادخلي اسمك هنا">
+        </div>
+
+        <!-- حقل أسماء البهارات المختارة -->
+        <div class="name-field-container">
+            <label for="species-names" class="name-label">أسماء البهارات:</label>
+            <textarea id="species-names" class="name-input species-input" rows="2" readonly placeholder="ستظهر هنا أسماء البهارات التي تختارينها"></textarea>
+        </div>
+
+        <div>المختارات: <span id="selected-count" class="count-badge">0</span></div>
+        <div style="margin-top: 10px;">
+            <button class="btn btn-copy" onclick="copyOrder()">نسخ الطلب 📋</button>
+        </div>
+    </div>
+
+    <script>
+        // كافة الأقسام والبهارات المأخوذة من الصور
+        const data = [
+            {
+                id: 1,
+                items: ["بهار مشكل", "7 بهارات", "بهار كيجن", "بهار برجيوت", "بهار ستيك", "قرفة عيدان", "قرفة", "بابريكا حلوة", "بابريكا حارة", "بابريكا مدخنة", "كركم", "زعفران", "كاري", "أوزي", "كبسة حب", "كبسة مطحون", "مسحب", "بهار قدرة", "حلبة", "حبة البركة", "قزحة", "مشاوي دجاج", "بهار لحمة", "بهار دجاج", "بهار مقلوبة", "فلفل أبيض"]
+            },
+            {
+                id: 2,
+                items: ["فلفل اسود", "فلفل احمر", "فلفل اسود حب", "بهار ابو ريحة", "بهار لبن", "بهار أرز", "بهار ذرة", "بهار بطاطا", "كركدية", "مرقدوش", "بذور الكتان", "بذور الكنوا", "بذور الشيا", "جرانولا", "بهار بخارية", "بهار سمك", "بهار برياني", "بهار مسخن", "بهار مندي", "بهار فاهيتا", "روزماري", "هيل", "هيل مطحون", "ورق غار", "نعنع ناشف", "ثوم باودر"]
+            },
+            {
+                id: 3,
+                items: ["بصل باودر", "ثوم ناشف", "بصل ناشف", "اورجانو", "اكليل الجبل", "زعتر", "يانسون", "بابونج", "جوزة الطيب", "فانيلا", "باكنج باودر", "كاكاو", "جلي", "محلب", "مستكة", "شومر", "خردل", "عصفر", "كراوية", "ريحان مجفف", "بقدونس مجفف", "زوفا", "خرنجان", "كربونات الصوديوم", "نشا"]
+            },
+            {
+                id: 4,
+                items: ["بهار جبنة", "عمبا", "ملح ليمون", "كزبرة", "سمسم", "سمسم أبيض", "بهار شاورما", "بهار شنيتسل", "بهار همبرغر", "بهار بيتزا", "بهار كباب", "بهار كبة", "بهار فلافل", "بهار محاشي", "بهار ستيك", "سماق", "زنجبيل", "شطة", "شطة مجروشة", "جرام ماسالا", "كمون", "طرشه", "قرنفل", "لومي", "ورد مجفف", "عنبر", "شبت"]
+            },
+            {
+                id: 5,
+                items: ["ورق غار", "عيدان قرفة", "خلطة شاي", "ملح", "سكر", "شاي", "قهوة", "شوكو", "نسكافية", "لوز", "جوز", "صنوبر", "كاجو", "سماق حب", "كمون حب", "يانسون نجمة", "نجمة أنيس", "بابونج", "اكليل الجبل", "خلطة اعشاب", "زعتر", "زعتر فارسي", "جوز هند", "مراق عوف", "مرقة دجاج", "موكباتس"]
+            },
+            {
+                id: 6,
+                items: ["كاكاو", "شوكو", "بهار جولش", "بهار كرسبي", "بهار عرايس", "بهار معراف", "بهار كيجن", "بهار حوسة", "بهار مخلوط", "فلفل انجليزي", "بهار توسكانا", "بهار معكرونة", "بهار سمنة", "بهار جريل", "ملح هيمالايا", "شاي وعر"]
+            },
+             {
+                id: 7,
+                items: ["عدس", "عدس حب", "عدس مجدرة", "عدس بني", "عدس مجروش", "عدس أحمر", "فاصولياء", "حمص", "حمص مجروش", "فول", "فول مجروش","ذرة", "مرق دجاج", "سمسم", "سمسم أبيض", "خلطة شنيتسل" ,"فتات خبز", "بقسماط", "زعتر", "اوريجانو", "مريمية", "ملوخية مجففة", "نعنع مجفف" ,"كركدية", "كاكاو", "نشا"]
+
+            },
+            {
+                id: 8,
+                items: ["شاي",  "شاي أخضر",  "خلطة شاي",  "قهوة", "نسكافية","سكر","ملح", "مكسرات","مخلوطة","جوز","لوز","لوز نص","لوز ربع",  "صنوبر",  "جوز هند",  "زبيب",  "بذور قرع",  "بذور بطيخ",  "بذور عين شمس",  "بذور دوار شمس",  "سماق",  "زنجبيل",  "خروب",  "ورق غار",  "عيدان قرفة",  "خلطة أعشاب"]
+
+            },
+            {
+                id: 9,
+                items: [ "ترمس حب", "كورنفلكس","جرانولا","بذور كينوا","سكر ناعم","حليب بودرة","شوكو","بودينج فانيلا","خميرة","بذور شيا", "بذور الكتان","بذور شومر", "كمون حب", "يانسون حب", "كزبرة حب",  "لومي", "فلفل قرون", "بهار حب", "هيل حب", "ورد محمدي", "خزام", "زعتر فارسي", "يانسون نجمة",  "بابونج", "زهورات",  "مردقوش"]
+            },
+            {
+                id: 10,
+                items:[ "طحين","طحين أبيض","طحين أسمر","سميد","سميدة ناعمة","سميدة خشنة","فريكة","فريكة ناعمة","فريكة خشنة","جريشة","برغل","برغل ناعم","برغل خشن","شوفان","أرز طويل","أرز قصير", "أرز مصري","أرز بسمتي","أرز محاشي","شعيرية","معكرونة", "معكرونة أشكال","سبكتي","مفتول","مغربية","بتتيم"]
+            }
+                ];
+
+        let selectedItems = new Set();
+
+        function renderMenu() {
+            const container = document.getElementById('menu-container');
+            data.forEach(group => {
+                const catDiv = document.createElement('div');
+                catDiv.className = 'category';
+                
+                const title = document.createElement('div');
+                title.className = 'category-title';
+                title.innerText = group.id;
+                catDiv.appendChild(title);
+
+                const grid = document.createElement('div');
+                grid.className = 'items-grid';
+
+                group.items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+                    card.onclick = () => toggleItem(item, card);
+
+                    card.innerHTML = `
+                        <span>${item}</span>
+                        <div class="checkbox"></div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+                catDiv.appendChild(grid);
+                container.appendChild(catDiv);
+            });
+        }
+
+        function toggleItem(item, cardElement) {
+            if (selectedItems.has(item)) {
+                selectedItems.delete(item);
+                cardElement.classList.remove('selected');
+            } else {
+                selectedItems.add(item);
+                cardElement.classList.add('selected');
+            }
+            document.getElementById('selected-count').innerText = selectedItems.size;
+            document.getElementById('species-names').value = Array.from(selectedItems).join('، ');
+        }
+
+        function getOrderText() {
+            if (selectedItems.size === 0) return '';
+            
+            const nameInput = document.getElementById('customer-name').value.trim();
+            let text = "";
+            
+            if (nameInput) {
+                text += `الاسم: ${nameInput}\n`;
+            }
+            
+            text += "مرحباً، أود طلب البهارات التالية:\n";
+            Array.from(selectedItems).forEach((item, index) => {
+                text += `${index + 1}. ${item}\n`;
+            });
+            return text;
+        }
+
+        function copyOrder() {
+            const text = getOrderText();
+            if (!text) return alert('الرجاء اختيار بعض البهارات أولاً');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('تم نسخ قائمة الطلب! يمكنك الآن لصقها في الفيس بوك، إنستغرام، تيك توك، أو أي تطبيق.');
+            });
+        }
+
+        function shareGeneral() {
+            const text = getOrderText();
+            if (!text) return alert('الرجاء اختيار بعض البهارات أولاً');
+            if (navigator.share) {
+                navigator.share({
+                    title: 'طلب بهارات',
+                    text: text
+                }).catch(() => {});
+            } else {
+                copyOrder();
+            }
+        }
+
+        renderMenu();
+    </script>
+</body>
+</html>
